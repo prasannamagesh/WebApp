@@ -272,14 +272,20 @@ export default function Home() {
               <label className="block text-gray-700 mb-2" htmlFor="country">
                 Country/Region
               </label>
-              <input
-                type="text"
+               <select
                 name="country"
                 id="country"
                 className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.country ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.country}
                 onChange={handleChange}
-              />
+              >
+                <option value="">Select your country</option>
+                <option value="India">India</option>
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Canada">Canada</option>
+                {/* Add more options as needed */}
+              </select>
               {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
             </div>
 
