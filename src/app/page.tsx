@@ -152,7 +152,7 @@ export default function Home() {
                 type="text"
                 name="firstName"
                 id="firstName"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.firstName ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.firstName ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.firstName}
                 onChange={handleChange}
               />
@@ -168,7 +168,7 @@ export default function Home() {
                 type="text"
                 name="lastName"
                 id="lastName"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.lastName ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.lastName ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.lastName}
                 onChange={handleChange}
               />
@@ -184,7 +184,7 @@ export default function Home() {
                 type="tel"
                 name="phoneNumber"
                 id="phoneNumber"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.phoneNumber}
                 onChange={handleChange}
               />
@@ -200,7 +200,7 @@ export default function Home() {
                 type="email"
                 name="email"
                 id="email"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -245,7 +245,7 @@ export default function Home() {
               <textarea
                 name="temporaryAddress"
                 id="temporaryAddress"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.temporaryAddress ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.temporaryAddress ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.temporaryAddress}
                 onChange={handleChange}
               />
@@ -260,7 +260,7 @@ export default function Home() {
               <textarea
                 name="permanentAddress"
                 id="permanentAddress"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.permanentAddress ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.permanentAddress ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.permanentAddress}
                 onChange={handleChange}
               />
@@ -275,7 +275,7 @@ export default function Home() {
                <select
                 name="country"
                 id="country"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.country ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.country ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.country}
                 onChange={handleChange}
               >
@@ -298,7 +298,7 @@ export default function Home() {
                 type="text"
                 name="nativeLanguage"
                 id="nativeLanguage"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.nativeLanguage ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.nativeLanguage ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.nativeLanguage}
                 onChange={handleChange}
               />
@@ -314,7 +314,7 @@ export default function Home() {
                 type="date"
                 name="dob"
                 id="dob"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.dob ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.dob ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.dob}
                 onChange={handleChange}
               />
@@ -330,7 +330,7 @@ export default function Home() {
                 type="text"
                 name="currentOrganization"
                 id="currentOrganization"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.currentOrganization ? 'border-red-500' : 'border-gray-300'}`}
+                className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.currentOrganization ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.currentOrganization}
                 onChange={handleChange}
               />
