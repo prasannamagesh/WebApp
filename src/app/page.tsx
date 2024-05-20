@@ -1,6 +1,6 @@
-// pages/index.js
+// pages/index.tsx
 'use client'
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
 
 interface FormData {
   firstName: string;
@@ -42,84 +42,74 @@ export default function Home() {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
-    setFormData({
+    const updatedFormData = {
       ...formData,
       [name]: type === 'checkbox' ? checked : value,
-    });
-    setErrors({
-      ...errors,
-      [name]: '',
-    });
+    };
+
+    setFormData(updatedFormData);
+    validateField(name, value, updatedFormData);
+  };
+
+  const handleBlur = (e: FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    validateField(name, value, formData);
+  };
+
+  const validateField = (name: string, value: any, formData: FormData) => {
+    let newErrors: FormErrors = { ...errors };
+
+    if (!value && name !== 'agreeToTerms') {
+      newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is required`;
+    } else {
+      switch (name) {
+        case 'phoneNumber':
+          if (!/^\d{10}$/.test(value)) {
+            newErrors.phoneNumber = 'Phone Number must be 10 digits';
+          } else {
+            delete newErrors.phoneNumber;
+          }
+          break;
+
+        case 'email':
+          if (!/\S+@\S+\.\S+/.test(value)) {
+            newErrors.email = 'Email is invalid';
+          } else {
+            delete newErrors.email;
+          }
+          break;
+
+        case 'agreeToTerms':
+          if (!formData.agreeToTerms) {
+            newErrors.agreeToTerms = 'You must agree to the terms and conditions';
+          } else {
+            delete newErrors.agreeToTerms;
+          }
+          break;
+
+        default:
+          delete newErrors[name];
+          break;
+      }
+    }
+
+    setErrors(newErrors);
   };
 
   const validateForm = (): boolean => {
     let formIsValid = true;
     let newErrors: FormErrors = {};
 
-    if (!formData.firstName) {
-      formIsValid = false;
-      newErrors.firstName = 'First Name is required';
-    }
-
-    if (!formData.lastName) {
-      formIsValid = false;
-      newErrors.lastName = 'Last Name is required';
-    }
-
-    if (!formData.phoneNumber) {
-      formIsValid = false;
-      newErrors.phoneNumber = 'Phone Number is required';
-    } else if (!/^\d{10}$/.test(formData.phoneNumber)) {
-      formIsValid = false;
-      newErrors.phoneNumber = 'Phone Number must be 10 digits';
-    }
-
-    if (!formData.email) {
-      formIsValid = false;
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      formIsValid = false;
-      newErrors.email = 'Email is invalid';
-    }
-
-    if (!formData.gender) {
-      formIsValid = false;
-      newErrors.gender = 'Gender is required';
-    }
-
-    if (!formData.temporaryAddress) {
-      formIsValid = false;
-      newErrors.temporaryAddress = 'Temporary Address is required';
-    }
-
-    if (!formData.permanentAddress) {
-      formIsValid = false;
-      newErrors.permanentAddress = 'Permanent Address is required';
-    }
-
-    if (!formData.country) {
-      formIsValid = false;
-      newErrors.country = 'Country/Region is required';
-    }
-
-    if (!formData.nativeLanguage) {
-      formIsValid = false;
-      newErrors.nativeLanguage = 'Native Language is required';
-    }
-
-    if (!formData.dob) {
-      formIsValid = false;
-      newErrors.dob = 'Date of Birth is required';
-    }
-
-    if (!formData.currentOrganization) {
-      formIsValid = false;
-      newErrors.currentOrganization = 'Current Organization is required';
+    for (const [key, value] of Object.entries(formData)) {
+      if (!value && key !== 'agreeToTerms') {
+        newErrors[key] = `${key.replace(/([A-Z])/g, ' $1')} is required`;
+        formIsValid = false;
+      }
     }
 
     if (!formData.agreeToTerms) {
-      formIsValid = false;
       newErrors.agreeToTerms = 'You must agree to the terms and conditions';
+      formIsValid = false;
     }
 
     setErrors(newErrors);
@@ -155,6 +145,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.firstName ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.firstName}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
             </div>
@@ -171,6 +162,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.lastName ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.lastName}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
             </div>
@@ -187,6 +179,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.phoneNumber ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.phoneNumber}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber}</p>}
             </div>
@@ -203,6 +196,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
             </div>
@@ -248,6 +242,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.temporaryAddress ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.temporaryAddress}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.temporaryAddress && <p className="text-red-500 text-sm">{errors.temporaryAddress}</p>}
             </div>
@@ -263,6 +258,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.permanentAddress ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.permanentAddress}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.permanentAddress && <p className="text-red-500 text-sm">{errors.permanentAddress}</p>}
             </div>
@@ -272,12 +268,13 @@ export default function Home() {
               <label className="block text-gray-700 mb-2" htmlFor="country">
                 Country/Region
               </label>
-               <select
+              <select
                 name="country"
                 id="country"
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.country ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.country}
                 onChange={handleChange}
+                onBlur={handleBlur}
               >
                 <option value="">Select your country</option>
                 <option value="India">India</option>
@@ -301,6 +298,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.nativeLanguage ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.nativeLanguage}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.nativeLanguage && <p className="text-red-500 text-sm">{errors.nativeLanguage}</p>}
             </div>
@@ -317,6 +315,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.dob ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.dob}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.dob && <p className="text-red-500 text-sm">{errors.dob}</p>}
             </div>
@@ -333,6 +332,7 @@ export default function Home() {
                 className={`text-black w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500 ${errors.currentOrganization ? 'border-red-500' : 'border-gray-300'}`}
                 value={formData.currentOrganization}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
               {errors.currentOrganization && <p className="text-red-500 text-sm">{errors.currentOrganization}</p>}
             </div>
