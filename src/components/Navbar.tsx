@@ -196,7 +196,7 @@ export default function Navbar() {
             aria-label="DermFix — home"
             className="flex items-center hover:opacity-70 transition-opacity"
           >
-            <DermFixLogo />
+            <DermFixLogo transparent={false} />
           </Link>
           <button
             onClick={() => setMenuOpen(false)}
