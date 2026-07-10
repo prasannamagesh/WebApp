@@ -2,39 +2,39 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { Star, ShoppingBag, ArrowRight } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
+import { Star, ShoppingBag, Plus } from 'lucide-react';
 
+// ─── Product catalogue data ────────────────────────────────────────
+// Replace with a database fetch when backend is ready.
 export interface CatalogProduct {
   id: string;
-  slug: string;
   name: string;
   subtitle: string;
+  tag: string;
   price: number;
   originalPrice?: number;
   currency: string;
   rating: number;
-  reviews: number;
+  reviewCount: number;
   image: string;
   alt: string;
   badge?: string;
   concern: string;
-  isBestSeller?: boolean;
   isNew?: boolean;
+  isBestSeller?: boolean;
 }
 
-export const CATALOGUE: CatalogProduct[] = [
+const CATALOGUE: CatalogProduct[] = [
   {
-    id: 'ectoin-recovery-serum',
-    slug: 'ectoin-recovery-serum',
+    id: 'ectoin-serum',
     name: 'Post Exposure Recovery Serum',
-    subtitle: '2% Ectoin · Night · 30 ml',
+    subtitle: '2% Ectoin · Night',
+    tag: 'Barrier Repair',
     price: 1499,
     originalPrice: 1999,
     currency: '₹',
-    rating: 4.9,
-    reviews: 2418,
+    rating: 4.8,
+    reviewCount: 312,
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-cE1jNUKGewZbsKQQeMilLjhlCDhwMW.jpeg',
     alt: 'DermFix 2% Ectoin Post Exposure Recovery Serum',
     badge: 'Best Seller',
@@ -42,147 +42,179 @@ export const CATALOGUE: CatalogProduct[] = [
     isBestSeller: true,
   },
   {
-    id: 'brightening-serum',
-    slug: 'ectoin-recovery-serum',
+    id: 'niacinamide-serum',
     name: 'Brightening + Pore Refining Serum',
-    subtitle: '5% Niacinamide + 1% TA · 30 ml',
+    subtitle: '10% Niacinamide + 1% Zinc',
+    tag: 'Brightening',
     price: 1299,
     originalPrice: 1699,
     currency: '₹',
-    rating: 4.8,
-    reviews: 1832,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.42.45%20PM-ah0uh6hOjojpgO83ikwM0QlnHfw82Y.jpeg',
-    alt: 'DermFix Brightening Serum',
+    rating: 4.7,
+    reviewCount: 248,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-cE1jNUKGewZbsKQQeMilLjhlCDhwMW.jpeg',
+    alt: 'DermFix Niacinamide + Zinc Serum',
     badge: 'New',
     concern: 'Brightening',
     isNew: true,
   },
   {
-    id: 'barrier-moisturiser',
-    slug: 'ectoin-recovery-serum',
-    name: 'Barrier Repair Moisturiser',
-    subtitle: 'Ceramide + Centella · 50 ml',
+    id: 'aha-bha-exfoliant',
+    name: 'AHA 30% + BHA 2% Peeling Solution',
+    subtitle: 'Exfoliant · Weekly',
+    tag: 'Exfoliation',
     price: 999,
     originalPrice: 1299,
     currency: '₹',
-    rating: 4.7,
-    reviews: 967,
+    rating: 4.6,
+    reviewCount: 189,
     image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-cE1jNUKGewZbsKQQeMilLjhlCDhwMW.jpeg',
-    alt: 'DermFix Barrier Repair Moisturiser',
-    concern: 'Dry Skin',
+    alt: 'DermFix AHA BHA Peeling Solution',
+    concern: 'Acne',
   },
   {
     id: 'spf-sunscreen',
-    slug: 'ectoin-recovery-serum',
-    name: 'Ultra-Light SPF 50 PA++++',
-    subtitle: 'Invisible Fluid · Daily · 50 ml',
+    name: 'Mineral SPF 50 PA++++ Sunscreen',
+    subtitle: '30ml · Daily Defense',
+    tag: 'SPF Protection',
     price: 1199,
-    originalPrice: 1499,
     currency: '₹',
-    rating: 4.6,
-    reviews: 714,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.42.45%20PM-ah0uh6hOjojpgO83ikwM0QlnHfw82Y.jpeg',
+    rating: 4.9,
+    reviewCount: 421,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-cE1jNUKGewZbsKQQeMilLjhlCDhwMW.jpeg',
     alt: 'DermFix SPF 50 Sunscreen',
-    concern: 'Sun Care',
+    badge: 'Best Seller',
+    concern: 'All',
+    isBestSeller: true,
+  },
+  {
+    id: 'retinol-serum',
+    name: 'Granactive Retinoid 2% Emulsion',
+    subtitle: '0.2% Retinoid · Night',
+    tag: 'Anti-Ageing',
+    price: 1599,
+    originalPrice: 1999,
+    currency: '₹',
+    rating: 4.7,
+    reviewCount: 156,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-cE1jNUKGewZbsKQQeMilLjhlCDhwMW.jpeg',
+    alt: 'DermFix Granactive Retinoid Emulsion',
+    concern: 'Anti-Ageing',
+  },
+  {
+    id: 'ha-moisturiser',
+    name: 'Natural Moisturising Factors + HA',
+    subtitle: 'Barrier Moisturiser · AM/PM',
+    tag: 'Hydration',
+    price: 899,
+    currency: '₹',
+    rating: 4.8,
+    reviewCount: 534,
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-cE1jNUKGewZbsKQQeMilLjhlCDhwMW.jpeg',
+    alt: 'DermFix NMF + HA Moisturiser',
+    badge: 'Best Seller',
+    concern: 'Dry Skin',
     isBestSeller: true,
   },
 ];
 
-const FILTERS = ['All', 'Best Sellers', 'Brightening', 'Dry Skin', 'Sun Care'];
+const FILTERS = ['All', 'Best Sellers', 'Brightening', 'Acne', 'Anti-Ageing', 'Dry Skin'];
 
-function Stars({ rating, size = 11 }: { rating: number; size?: number }) {
+// ─── Star renderer ─────────────────────────────────────────────────
+function Stars({ rating }: { rating: number }) {
   return (
-    <div className="flex items-center gap-0.5" aria-label={`${rating} out of 5`}>
-      {[1,2,3,4,5].map((i) => (
+    <div className="flex items-center gap-0.5" aria-label={`${rating} out of 5 stars`}>
+      {[1, 2, 3, 4, 5].map((s) => (
         <Star
-          key={i}
-          size={size}
-          fill={i <= Math.round(rating) ? '#1a4fd8' : 'none'}
-          stroke={i <= Math.round(rating) ? 'none' : '#cbd5e1'}
-          strokeWidth={1.5}
+          key={s}
+          size={11}
+          className={s <= Math.round(rating) ? 'text-foreground fill-foreground' : 'text-subtle fill-subtle'}
+          strokeWidth={0}
         />
       ))}
     </div>
   );
 }
 
+// ─── Single product card ───────────────────────────────────────────
 function ProductCard({ product }: { product: CatalogProduct }) {
   const [added, setAdded] = useState(false);
-  const { addToCart } = useCart();
   const discount = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : 0;
 
-  const handleAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    addToCart({
-      id:            product.id,
-      name:          product.name,
-      subtitle:      product.subtitle,
-      price:         product.price,
-      originalPrice: product.originalPrice,
-      currency:      product.currency,
-      image:         product.image,
-      alt:           product.alt,
-    });
+  const handleAdd = () => {
     setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
+    setTimeout(() => setAdded(false), 1800);
   };
 
   return (
-    <Link
-      href={`/product/${product.slug}`}
-      className="group relative flex flex-col bg-surface rounded-2xl overflow-hidden
-                 border border-subtle hover:border-blue-200 hover:shadow-xl
-                 transition-all duration-300"
-      style={{ boxShadow: '0 2px 8px rgba(26,79,216,0.04)' }}
-    >
-      {/* Badges */}
-      <div className="absolute top-3 left-3 z-10 flex flex-col gap-1.5">
-        {product.badge && (
-          <span
-            className="text-[9px] font-bold tracking-[0.1em] uppercase text-white px-2.5 py-1 rounded-full"
-            style={{ backgroundColor: product.isNew ? '#059669' : '#1a4fd8' }}
-          >
-            {product.badge}
-          </span>
-        )}
-        {discount > 0 && (
-          <span className="text-[9px] font-bold tracking-[0.1em] uppercase text-white px-2.5 py-1 rounded-full bg-orange-500">
-            -{discount}%
-          </span>
-        )}
-      </div>
-
+    <article className="group relative bg-surface flex flex-col">
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden" style={{ backgroundColor: '#f4f7fc' }}>
+      <div className="relative aspect-[3/4] overflow-hidden bg-[#f2f2f0]">
         <Image
           src={product.image}
           alt={product.alt}
           fill
-          className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 22vw"
         />
+
+        {/* Badges */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+          {product.badge && (
+            <span className="bg-foreground text-surface text-[9px] tracking-[0.1em] uppercase font-bold px-2 py-1">
+              {product.badge}
+            </span>
+          )}
+          {discount > 0 && (
+            <span className="bg-brand-accent text-surface text-[9px] tracking-[0.1em] uppercase font-bold px-2 py-1">
+              -{discount}%
+            </span>
+          )}
+        </div>
+
+        {/* Quick add — shows on hover desktop */}
+        <button
+          onClick={handleAdd}
+          aria-label={`Add ${product.name} to cart`}
+          className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-2
+                     bg-foreground/95 text-surface text-[10px] tracking-[0.14em] uppercase font-semibold
+                     py-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300
+                     md:flex hidden"
+        >
+          {added ? (
+            'Added!'
+          ) : (
+            <>
+              <Plus size={12} /> Quick Add
+            </>
+          )}
+        </button>
       </div>
 
       {/* Info */}
-      <div className="flex flex-col flex-1 p-4 lg:p-5">
-        <p className="text-[10px] uppercase tracking-[0.14em] font-bold text-brand-accent mb-1">
-          {product.subtitle}
+      <div className="flex flex-col flex-1 pt-3 pb-4 px-0.5">
+        {/* Tag */}
+        <p className="text-[9px] tracking-[0.16em] uppercase font-semibold text-brand-accent mb-1.5">
+          {product.tag}
         </p>
-        <h3 className="text-[13px] lg:text-[14px] font-bold text-foreground leading-snug mb-2.5 text-balance">
+
+        {/* Name */}
+        <h3 className="text-[13px] font-semibold text-foreground leading-snug tracking-tight line-clamp-2 mb-1">
           {product.name}
         </h3>
+        <p className="text-[11px] text-muted mb-2.5">{product.subtitle}</p>
 
-        <div className="flex items-center gap-1.5 mb-4">
+        {/* Stars */}
+        <div className="flex items-center gap-2 mb-3">
           <Stars rating={product.rating} />
-          <span className="text-[11px] font-semibold text-foreground">{product.rating}</span>
-          <span className="text-[11px] text-muted">({product.reviews.toLocaleString()})</span>
+          <span className="text-[10px] text-muted">({product.reviewCount})</span>
         </div>
 
-        <div className="flex items-center justify-between mt-auto gap-2">
+        {/* Price row + mobile add */}
+        <div className="flex items-center justify-between mt-auto">
           <div className="flex items-baseline gap-1.5">
-            <span className="text-[16px] font-black text-foreground">
+            <span className="text-[15px] font-bold text-foreground tracking-tight">
               {product.currency}{product.price.toLocaleString('en-IN')}
             </span>
             {product.originalPrice && (
@@ -192,72 +224,76 @@ function ProductCard({ product }: { product: CatalogProduct }) {
             )}
           </div>
 
+          {/* Mobile add button */}
           <button
             onClick={handleAdd}
             aria-label={`Add ${product.name} to cart`}
-            className="flex items-center gap-1.5 text-[11px] font-bold tracking-[0.06em] uppercase
-                       text-white px-3 py-2 rounded-xl transition-all duration-200 shrink-0
-                       hover:opacity-90 active:scale-95"
-            style={{ backgroundColor: added ? '#059669' : '#1a4fd8' }}
+            className="md:hidden flex items-center justify-center w-8 h-8 bg-foreground text-surface hover:bg-brand-accent transition-colors"
           >
-            <ShoppingBag size={12} strokeWidth={2.5} />
-            <span className="hidden sm:inline">{added ? 'Added!' : 'Add'}</span>
+            <ShoppingBag size={14} />
           </button>
         </div>
+
+        {/* Desktop add to cart */}
+        <button
+          onClick={handleAdd}
+          className="hidden md:flex items-center justify-center gap-2 mt-3 w-full
+                     border border-foreground text-foreground text-[10px] tracking-[0.14em]
+                     uppercase font-semibold py-2.5 hover:bg-foreground hover:text-surface
+                     transition-colors duration-200"
+        >
+          {added ? 'Added to Bag!' : 'Add to Bag'}
+        </button>
       </div>
-    </Link>
+    </article>
   );
 }
 
+// ─── Section ───────────────────────────────────────────────────────
 export default function ProductGrid() {
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [active, setActive] = useState('All');
 
-  const filtered = activeFilter === 'All'
+  const filtered = active === 'All'
     ? CATALOGUE
-    : activeFilter === 'Best Sellers'
+    : active === 'Best Sellers'
     ? CATALOGUE.filter((p) => p.isBestSeller)
-    : CATALOGUE.filter((p) => p.concern === activeFilter);
+    : CATALOGUE.filter((p) => p.concern === active);
 
   return (
-    <section id="products" className="py-16 lg:py-24 bg-background">
+    <section id="products" className="bg-background py-16 lg:py-24">
       <div className="max-w-[1320px] mx-auto px-5 md:px-10 lg:px-16">
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-10">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
           <div>
-            <p className="text-[10px] tracking-[0.2em] uppercase font-bold mb-2"
-               style={{ color: '#1a4fd8' }}>
+            <p className="text-[10px] tracking-[0.2em] uppercase font-semibold text-brand-accent mb-2">
               Our Range
             </p>
-            <h2 className="text-[32px] lg:text-[42px] font-black tracking-tight text-foreground leading-tight">
-              Science-Led Formulas
-              <br />
-              <span className="text-muted font-normal">for Every Skin Need</span>
+            <h2 className="text-[32px] lg:text-[40px] font-black tracking-tight text-foreground leading-tight">
+              Formulated for Results.
+              <br className="hidden sm:block" /> Not for Marketing.
             </h2>
           </div>
-          <Link
-            href="/product/ectoin-recovery-serum"
-            className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase
-                       transition-all duration-200 hover:gap-3"
-            style={{ color: '#1a4fd8' }}
+          <a
+            href="#"
+            className="self-start sm:self-auto text-[11px] tracking-[0.14em] uppercase font-semibold text-foreground
+                       border-b border-foreground pb-0.5 hover:text-brand-accent hover:border-brand-accent transition-colors"
           >
-            View All Products <ArrowRight size={14} />
-          </Link>
+            View All
+          </a>
         </div>
 
-        {/* Filter pills */}
-        <div className="flex items-center gap-2 mb-8 overflow-x-auto scrollbar-hide pb-1">
+        {/* Filter tabs */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-8 scrollbar-hide">
           {FILTERS.map((f) => (
             <button
               key={f}
-              onClick={() => setActiveFilter(f)}
-              className="whitespace-nowrap text-[11px] font-semibold tracking-[0.08em] uppercase
-                         px-4 py-2 rounded-full border transition-all duration-200"
-              style={
-                activeFilter === f
-                  ? { backgroundColor: '#1a4fd8', color: '#fff', borderColor: '#1a4fd8' }
-                  : { backgroundColor: '#fff', color: '#64748b', borderColor: '#dde3ef' }
-              }
+              onClick={() => setActive(f)}
+              className={`whitespace-nowrap text-[10px] tracking-[0.14em] uppercase font-semibold px-4 py-2 border transition-colors duration-150 ${
+                active === f
+                  ? 'bg-foreground text-surface border-foreground'
+                  : 'bg-transparent text-muted border-subtle hover:border-foreground hover:text-foreground'
+              }`}
             >
               {f}
             </button>
@@ -265,8 +301,10 @@ export default function ProductGrid() {
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
-          {filtered.map((p) => <ProductCard key={p.id} product={p} />)}
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-5 gap-y-10">
+          {filtered.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </div>
       </div>
     </section>

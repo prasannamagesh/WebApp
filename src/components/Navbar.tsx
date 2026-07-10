@@ -1,16 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { ShoppingBag, Menu, X, Search, User } from 'lucide-react';
-import { useCart } from '@/context/CartContext';
 
 // ─── Nav items array — add product categories here ───────────────
 const NAV_ITEMS = [
-  { label: 'Shop All',    href: '/product/ectoin-recovery-serum' },
-  { label: 'Skin Test',   href: '#skin-test' },
-  { label: 'Our Science', href: '#science' },
-  { label: 'Contact',     href: '/contact' },
+  { label: 'Shop All', href: '#' },
+  { label: 'Skin Test', href: '#' },
+  { label: 'Our Science', href: '#' },
 ];
 
 // ─── Inline logo matching DermFix brand identity ──────────────────
@@ -35,7 +32,7 @@ function DermFixLogo({ className = '' }: { className?: string }) {
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { totalItems: cartCount, openCart } = useCart();
+  const [cartCount] = useState<number>(2);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -84,7 +81,7 @@ export default function Navbar() {
                 className="hidden lg:flex items-center gap-9"
               >
                 {NAV_ITEMS.map((item) => (
-                  <Link
+                  <a
                     key={item.label}
                     href={item.href}
                     className="relative whitespace-nowrap text-[11px] font-medium tracking-[0.14em] uppercase text-zinc-500
@@ -94,20 +91,20 @@ export default function Navbar() {
                                hover:after:w-full"
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 ))}
               </nav>
             </div>
 
             {/* ── CENTER: Logo (always centered) ───────────────── */}
             <div className="flex-1 flex justify-center">
-              <Link
-                href="/"
+              <a
+                href="#"
                 aria-label="DermFix — home"
                 className="flex items-center hover:opacity-70 transition-opacity duration-200"
               >
                 <DermFixLogo />
-              </Link>
+              </a>
             </div>
 
             {/* ── RIGHT ZONE ───────────────────────────────────── */}
@@ -130,7 +127,6 @@ export default function Navbar() {
 
               {/* Bag — always visible */}
               <button
-                onClick={openCart}
                 aria-label={`Shopping bag, ${cartCount} item${cartCount !== 1 ? 's' : ''}`}
                 className="relative flex items-center justify-center w-9 h-9 text-zinc-800 hover:text-zinc-900 transition-colors"
               >
@@ -173,14 +169,14 @@ export default function Navbar() {
         {/* Sheet top bar */}
         <div className="h-[2px] w-full bg-brand-accent" />
         <div className="flex items-center justify-between px-6 h-16 border-b border-zinc-100">
-          <Link
-            href="/"
+          <a
+            href="#"
             onClick={() => setMenuOpen(false)}
             aria-label="DermFix — home"
             className="flex items-center hover:opacity-70 transition-opacity"
           >
             <DermFixLogo />
-          </Link>
+          </a>
           <button
             onClick={() => setMenuOpen(false)}
             aria-label="Close navigation menu"
@@ -193,7 +189,7 @@ export default function Navbar() {
         {/* Sheet nav links */}
         <nav aria-label="Mobile navigation" className="flex flex-col px-6 pt-6">
           {NAV_ITEMS.map((item) => (
-            <Link
+            <a
               key={item.label}
               href={item.href}
               onClick={() => setMenuOpen(false)}
@@ -205,7 +201,7 @@ export default function Navbar() {
               <span className="text-brand-accent opacity-0 group-hover:opacity-100 transition-opacity text-lg leading-none">
                 +
               </span>
-            </Link>
+            </a>
           ))}
         </nav>
 

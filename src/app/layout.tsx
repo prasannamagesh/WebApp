@@ -2,8 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import AnnouncementBar from '@/components/AnnouncementBar';
-import CartDrawer from '@/components/CartDrawer';
-import { CartProvider } from '@/context/CartContext';
 import './globals.css';
 
 const inter = Inter({
@@ -33,14 +31,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} bg-background`}>
       <body className="font-sans antialiased">
-        <CartProvider>
-          <div className="sticky top-0 z-50">
-            <AnnouncementBar />
-            <Navbar />
-          </div>
-          {children}
-          <CartDrawer />
-        </CartProvider>
+        <div className="sticky top-0 z-50">
+          <AnnouncementBar />
+          <Navbar />
+        </div>
+        {children}
       </body>
     </html>
   );
