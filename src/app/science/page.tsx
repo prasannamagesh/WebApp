@@ -114,7 +114,7 @@ export default function SciencePage() {
             <div className="bg-white p-8 rounded-2xl">
               <h3 className="text-xl font-bold text-foreground mb-3">2% Ectoin</h3>
               <p className="text-muted mb-4">
-                A naturally occurring stress-shield molecule that strengthens skin's barrier function and reduces inflammation. Used in medical-grade skincare for sensitive and reactive skin.
+                A naturally occurring stress-shield molecule that strengthens skin&apos;s barrier function and reduces inflammation. Used in medical-grade skincare for sensitive and reactive skin.
               </p>
               <div className="flex items-center gap-2 text-sm text-brand-accent font-semibold">
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-brand-accent" />
