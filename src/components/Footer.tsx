@@ -176,6 +176,10 @@ export default function Footer() {
                 {item}
               </a>
             ))}
+            <span className="text-surface/10">•</span>
+            <a href="/admin" className="text-[11px] text-surface/30 hover:text-brand-accent transition-colors font-medium">
+              Admin Panel
+            </a>
           </div>
         </div>
       </div>
