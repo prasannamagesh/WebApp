@@ -32,7 +32,7 @@ function DermFixLogo({ className = '' }: { className?: string }) {
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const cartCount = 2;
+  const [cartCount] = useState<number>(2);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);

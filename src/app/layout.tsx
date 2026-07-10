@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
+import AnnouncementBar from '@/components/AnnouncementBar';
 import './globals.css';
 
 const inter = Inter({
@@ -12,7 +13,8 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'DermFix — Preventive Skin Science',
   description:
-    'Science-backed formulations engineered for long-term skin health. Take the Skin Test, shop our range, and explore the science behind every formula.',
+    'Science-backed formulations engineered for long-term skin health. Clinically proven actives at therapeutic concentrations. Take the Skin Test, shop our range, and explore the science behind every formula.',
+  keywords: ['skincare', 'serum', 'ectoin', 'niacinamide', 'dermatologist tested', 'clinical skincare'],
 };
 
 export const viewport: Viewport = {
@@ -29,7 +31,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} bg-background`}>
       <body className="font-sans antialiased">
-        <Navbar />
+        <div className="sticky top-0 z-50">
+          <AnnouncementBar />
+          <Navbar />
+        </div>
         {children}
       </body>
     </html>

@@ -3,16 +3,15 @@
 @tailwind utilities;
 
 /* ─── DermFix Design Tokens ──────────────────────────────────────
-   Clinical white palette with stark black type and magenta accent.
-   Matches the brand logo: black sans-serif + magenta plus mark.
+   Clinical white palette: stark black type, magenta accent.
 ───────────────────────────────────────────────────────────────── */
 :root {
-  --color-background:  #f8f8f7;   /* off-white clinical surface   */
-  --color-foreground:  #0a0a0a;   /* near-black — stark type       */
-  --color-muted:       #737373;   /* neutral gray                  */
-  --color-subtle:      #e4e4e3;   /* hairline dividers             */
-  --color-surface:     #ffffff;   /* pure white cards/sheets       */
-  --color-accent:      #e8005a;   /* magenta — from logo plus mark */
+  --color-background:  #f8f8f7;
+  --color-foreground:  #0a0a0a;
+  --color-muted:       #737373;
+  --color-subtle:      #e4e4e3;
+  --color-surface:     #ffffff;
+  --color-accent:      #e8005a;
 }
 
 html {
@@ -27,11 +26,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ─── Marquee animation ───────────────────────────────────────── */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Hide scrollbar utility ──────────────────────────────────── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ─── Utilities ───────────────────────────────────────────────── */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-  .text-pretty {
-    text-wrap: pretty;
-  }
+  .text-balance  { text-wrap: balance; }
+  .text-pretty   { text-wrap: pretty; }
 }

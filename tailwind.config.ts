@@ -24,6 +24,7 @@ const config: Config = {
     },
   },
   plugins: [],
+  safelist: ['bg-brand-accent', 'text-brand-accent', 'border-brand-accent'],
 };
 
 export default config;
