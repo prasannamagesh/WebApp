@@ -135,7 +135,7 @@ export default function HeroSection() {
             {/* Product image */}
             <div className="relative w-full max-w-[440px] lg:max-w-none aspect-[3/4] lg:aspect-auto lg:h-[88vh]">
               <Image
-                src="/images/hero-product.png"
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-Ll7vbTGZVNIEKtboMhDZmYexkHetw2.jpeg"
                 alt="DermFix 2% Ectoin Post Exposure Recovery Serum"
                 fill
                 priority

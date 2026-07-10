@@ -4,6 +4,7 @@ import Order from '@/models/Order';
 import Product from '@/models/Product';
 import Razorpay from 'razorpay';
 import { z } from 'zod';
+import { sendOrderConfirmationNotification } from '@/lib/whatsapp-service';
 
 // Validation schemas
 const OrderItemSchema = z.object({
@@ -187,6 +188,28 @@ export async function POST(request: NextRequest) {
         { $inc: { stockCount: -item.quantity } },
         { new: true }
       );
+    }
+
+    // Send WhatsApp order confirmation notification (async, don't wait)
+    try {
+      if (validatedData.customerDetails?.phone) {
+        const deliveryDays = subtotal >= 500 ? '2-3' : '3-5';
+        const customerName = `${validatedData.customerDetails.firstName} ${validatedData.customerDetails.lastName}`;
+        await sendOrderConfirmationNotification(
+          validatedData.customerDetails.phone,
+          {
+            orderId: order.orderId,
+            customerName: customerName.trim() || 'Valued Customer',
+            totalAmount: totalAmount.toFixed(2),
+            estimatedDelivery: deliveryDays + ' business days',
+          }
+        ).catch((err) => {
+          console.error('[v0] WhatsApp notification failed (non-blocking):', err);
+        });
+      }
+    } catch (whatsappError) {
+      console.error('[v0] WhatsApp notification error:', whatsappError);
+      // Don't fail checkout if WhatsApp notification fails
     }
 
     return NextResponse.json(

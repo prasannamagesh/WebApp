@@ -1,12 +1,14 @@
+import Image from 'next/image';
+
 export function DermFixLogo() {
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex items-baseline">
-        <span className="text-2xl font-black tracking-tighter text-black">
-          DERMFIX
-        </span>
-        <span className="text-xl font-bold text-brand-accent -ml-1">+</span>
-      </div>
-    </div>
+    <Image
+      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo-5Q9P2GzQMQin7pXDjGDrd3mfTj16kn.png"
+      alt="DERMFIX - Preventive Skin Science"
+      width={160}
+      height={40}
+      className="h-8 sm:h-9 lg:h-10 w-auto"
+      priority
+    />
   );
 }
