@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, Menu, X, Search, User, Settings } from 'lucide-react';
+import { ShoppingBag, Menu, X, User, Settings } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { DermFixLogo } from './DermFixLogo';
+import { AuthModal } from './AuthModal';
 
 // ─── Nav items array — add product categories here ───────────────
 const NAV_ITEMS = [
@@ -29,6 +30,7 @@ export default function Navbar() {
   const [adminOpen, setAdminOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
   const { totalItems: cartCount, openCart } = useCart();
 
   useEffect(() => {
@@ -129,16 +131,9 @@ export default function Navbar() {
 
             {/* ── RIGHT ZONE: Actions ──────────────────────────── */}
             <div className="flex items-center justify-end gap-1 sm:gap-2 lg:gap-3 lg:flex-none">
-              {/* Search — desktop only */}
-              <button
-                aria-label="Search"
-                className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 transition-all"
-              >
-                <Search size={18} strokeWidth={1.5} />
-              </button>
-
               {/* Account — desktop only */}
               <button
+                onClick={() => setAuthOpen(true)}
                 aria-label="Account"
                 className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 transition-all"
               >
@@ -169,7 +164,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* ─── Mobile Overlay ──────────────────────────────────────── */}
+      {/* ─── Mobile Overlay ───────���──────────────────────────────── */}
       <div
         aria-hidden="true"
         onClick={() => setMenuOpen(false)}
@@ -196,7 +191,7 @@ export default function Navbar() {
             aria-label="DermFix — home"
             className="flex items-center hover:opacity-70 transition-opacity"
           >
-            <DermFixLogo transparent={false} />
+            <DermFixLogo />
           </Link>
           <button
             onClick={() => setMenuOpen(false)}
@@ -261,23 +256,23 @@ export default function Navbar() {
         </nav>
 
         {/* Sheet footer */}
-        <div className="mt-auto px-6 pb-10 pt-8 flex items-center gap-6 border-t border-zinc-100">
+        <div className="mt-auto px-6 pb-10 pt-8 border-t border-zinc-100">
           <button
-            aria-label="Search"
-            className="flex items-center gap-2 text-[11px] font-medium tracking-[0.12em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors"
-          >
-            <Search size={15} strokeWidth={1.5} />
-            Search
-          </button>
-          <button
+            onClick={() => {
+              setAuthOpen(true);
+              setMenuOpen(false);
+            }}
             aria-label="Account"
-            className="flex items-center gap-2 text-[11px] font-medium tracking-[0.12em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors"
+            className="flex items-center gap-2 text-[11px] font-medium tracking-[0.12em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors w-full"
           >
             <User size={15} strokeWidth={1.5} />
             Account
           </button>
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
     </>
   );
 }

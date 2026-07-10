@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, Search, Filter, MoreVertical, Mail, Phone, Calendar, Trash2, Edit2 } from 'lucide-react';
-import AdminSidebar from '@/components/admin/AdminSidebar';
 
 interface User {
   id: string;
@@ -110,12 +109,9 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
-      {/* Sidebar */}
-      <AdminSidebar />
-
+    <div className="w-full">
       {/* Main content */}
-      <main className="flex-1 overflow-auto">
+      <main className="w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">
