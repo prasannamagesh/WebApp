@@ -44,21 +44,21 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-600 mt-2">Manage DermFix operations and orders</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-foreground">Dashboard</h1>
+        <p className="text-sm text-muted mt-1">Monitor your DermFix business metrics</p>
       </div>
 
       {/* Metrics Cards */}
       <DashboardCards stats={stats} loading={loading} />
 
       {/* Orders Section */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900">Recent Orders</h2>
-          <p className="text-sm text-gray-600 mt-1">Manage and track customer orders</p>
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+        <div className="p-4 md:p-6 border-b border-slate-200">
+          <h2 className="text-lg md:text-xl font-bold text-foreground">Recent Orders</h2>
+          <p className="text-xs md:text-sm text-muted mt-1">Track and manage orders in real-time</p>
         </div>
         <OrdersTable />
       </div>

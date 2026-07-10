@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import AnnouncementBar from '@/components/AnnouncementBar';
-import CartDrawer from '@/components/CartDrawer';
+import { CartDrawer } from '@/components/CartDrawer';
 import { CartProvider } from '@/context/CartContext';
 import './globals.css';
 
