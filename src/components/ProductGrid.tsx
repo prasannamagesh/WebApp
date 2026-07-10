@@ -5,90 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Star, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { CATALOGUE, type CatalogProduct } from '@/data/products';
 
-export interface CatalogProduct {
-  id: string;
-  slug: string;
-  name: string;
-  subtitle: string;
-  price: number;
-  originalPrice?: number;
-  currency: string;
-  rating: number;
-  reviews: number;
-  image: string;
-  alt: string;
-  badge?: string;
-  concern: string;
-  isBestSeller?: boolean;
-  isNew?: boolean;
-}
-
-export const CATALOGUE: CatalogProduct[] = [
-  {
-    id: 'ectoin-recovery-serum',
-    slug: 'ectoin-recovery-serum',
-    name: 'Post Exposure Recovery Serum',
-    subtitle: '2% Ectoin · Night · 30 ml',
-    price: 1499,
-    originalPrice: 1999,
-    currency: '₹',
-    rating: 4.9,
-    reviews: 2418,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-cE1jNUKGewZbsKQQeMilLjhlCDhwMW.jpeg',
-    alt: 'DermFix 2% Ectoin Post Exposure Recovery Serum',
-    badge: 'Best Seller',
-    concern: 'All',
-    isBestSeller: true,
-  },
-  {
-    id: 'brightening-serum',
-    slug: 'ectoin-recovery-serum',
-    name: 'Brightening + Pore Refining Serum',
-    subtitle: '5% Niacinamide + 1% TA · 30 ml',
-    price: 1299,
-    originalPrice: 1699,
-    currency: '₹',
-    rating: 4.8,
-    reviews: 1832,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.42.45%20PM-ah0uh6hOjojpgO83ikwM0QlnHfw82Y.jpeg',
-    alt: 'DermFix Brightening Serum',
-    badge: 'New',
-    concern: 'Brightening',
-    isNew: true,
-  },
-  {
-    id: 'barrier-moisturiser',
-    slug: 'ectoin-recovery-serum',
-    name: 'Barrier Repair Moisturiser',
-    subtitle: 'Ceramide + Centella · 50 ml',
-    price: 999,
-    originalPrice: 1299,
-    currency: '₹',
-    rating: 4.7,
-    reviews: 967,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-cE1jNUKGewZbsKQQeMilLjhlCDhwMW.jpeg',
-    alt: 'DermFix Barrier Repair Moisturiser',
-    concern: 'Dry Skin',
-  },
-  {
-    id: 'spf-sunscreen',
-    slug: 'ectoin-recovery-serum',
-    name: 'Ultra-Light SPF 50 PA++++',
-    subtitle: 'Invisible Fluid · Daily · 50 ml',
-    price: 1199,
-    originalPrice: 1499,
-    currency: '₹',
-    rating: 4.6,
-    reviews: 714,
-    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.42.45%20PM-ah0uh6hOjojpgO83ikwM0QlnHfw82Y.jpeg',
-    alt: 'DermFix SPF 50 Sunscreen',
-    concern: 'Sun Care',
-    isBestSeller: true,
-  },
-];
-
-const FILTERS = ['All', 'Best Sellers', 'Brightening', 'Dry Skin', 'Sun Care'];
+const FILTERS = ['All', 'Best Sellers', 'Brightening', 'Dry Skin', 'Sun Care', 'Anti-Aging', 'Hydration'];
 
 function Stars({ rating, size = 11 }: { rating: number; size?: number }) {
   return (
@@ -236,7 +155,7 @@ export default function ProductGrid() {
             </h2>
           </div>
           <Link
-            href="/product/ectoin-recovery-serum"
+            href="/products"
             className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase
                        transition-all duration-200 hover:gap-3"
             style={{ color: '#1a4fd8' }}

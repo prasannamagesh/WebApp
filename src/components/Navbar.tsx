@@ -7,7 +7,7 @@ import { useCart } from '@/context/CartContext';
 
 // ─── Nav items array — add product categories here ───────────────
 const NAV_ITEMS = [
-  { label: 'Shop All',    href: '/product/ectoin-recovery-serum' },
+  { label: 'Shop All',    href: '/products' },
   { label: 'Skin Test',   href: '#skin-test' },
   { label: 'Our Science', href: '#science' },
   { label: 'Contact',     href: '/contact' },

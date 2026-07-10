@@ -319,7 +319,7 @@ export default function CartDrawer() {
           <EmptyCart onClose={closeCart} />
         ) : (
           <>
-            <div className="flex-1 overflow-y-auto overscroll-contain px-5">
+            <div className="flex-1 overflow-y-auto overscroll-contain px-5 min-h-0">
               {items.map((item) => (
                 <CartItemRow key={item.id} {...item} />
               ))}
