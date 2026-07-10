@@ -7,9 +7,9 @@ const FOOTER_LINKS = [
   {
     heading: 'Shop',
     links: [
-      { label: 'Shop All', href: '#' },
-      { label: 'Best Sellers', href: '#' },
-      { label: 'New Launches', href: '#' },
+      { label: 'Shop All', href: '/products' },
+      { label: 'Best Sellers', href: '/products?filter=bestsellers' },
+      { label: 'New Launches', href: '/products?filter=new' },
       { label: 'Bundles + Duos', href: '#' },
       { label: 'Gift Sets', href: '#' },
     ],
@@ -30,15 +30,15 @@ const FOOTER_LINKS = [
       { label: 'Track Order', href: '#' },
       { label: 'Returns + Refunds', href: '#' },
       { label: 'Shipping Policy', href: '#' },
-      { label: 'FAQ', href: '#' },
-      { label: 'Contact Us', href: '#' },
+      { label: 'FAQ', href: '/contact' },
+      { label: 'Contact Us', href: '/contact' },
     ],
   },
   {
     heading: 'Company',
     links: [
-      { label: 'About DermFix', href: '#' },
-      { label: 'Our Story', href: '#' },
+      { label: 'About DermFix', href: '/' },
+      { label: 'Our Story', href: '/' },
       { label: 'Press', href: '#' },
       { label: 'Careers', href: '#' },
       { label: 'Privacy Policy', href: '#' },

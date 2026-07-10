@@ -7,9 +7,10 @@ import { useCart } from '@/context/CartContext';
 
 // ─── Nav items array — add product categories here ───────────────
 const NAV_ITEMS = [
-  { label: 'Shop All',    href: '/product/ectoin-recovery-serum' },
-  { label: 'Skin Test',   href: '#skin-test' },
-  { label: 'Our Science', href: '#science' },
+  { label: 'Home',        href: '/' },
+  { label: 'Shop All',    href: '/products' },
+  { label: 'Skin Test',   href: '/skin-test' },
+  { label: 'Our Science', href: '/science' },
   { label: 'Contact',     href: '/contact' },
 ];
 
@@ -64,11 +65,20 @@ export default function Navbar() {
         {/* Thin magenta accent line at the very top */}
         <div className="h-[2px] w-full bg-brand-accent" />
 
-        <div className="max-w-screen-xl mx-auto px-5 sm:px-8 lg:px-12">
-          <div className="flex items-center h-[60px] lg:h-[68px]">
+        <div className="max-w-screen-2xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="flex items-center justify-between h-[60px] lg:h-[72px]">
 
-            {/* ── LEFT ZONE ────────────────────────────────────── */}
-            <div className="flex items-center flex-1 lg:flex-none lg:w-[220px]">
+            {/* ── LEFT ZONE: Logo + Nav (Desktop) / Hamburger (Mobile) ──── */}
+            <div className="flex items-center gap-12">
+              {/* Logo — all screens */}
+              <Link
+                href="/"
+                aria-label="DermFix — home"
+                className="flex items-center hover:opacity-70 transition-opacity duration-200 shrink-0"
+              >
+                <DermFixLogo />
+              </Link>
+
               {/* Hamburger — mobile only */}
               <button
                 className="lg:hidden p-2 -ml-2 text-zinc-800 hover:text-zinc-900 transition-colors"
@@ -78,18 +88,18 @@ export default function Navbar() {
                 <Menu size={20} strokeWidth={1.5} />
               </button>
 
-              {/* Nav links — desktop left is empty; logo is center */}
+              {/* Nav links — desktop only, properly spaced */}
               <nav
                 aria-label="Primary navigation"
-                className="hidden lg:flex items-center gap-9"
+                className="hidden lg:flex items-center gap-8"
               >
                 {NAV_ITEMS.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
-                    className="relative whitespace-nowrap text-[11px] font-medium tracking-[0.14em] uppercase text-zinc-500
+                    className="relative whitespace-nowrap text-[11px] font-medium tracking-[0.14em] uppercase text-zinc-600
                                hover:text-zinc-900 transition-colors duration-200
-                               after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0
+                               after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0
                                after:bg-brand-accent after:transition-all after:duration-300
                                hover:after:w-full"
                   >
@@ -99,48 +109,37 @@ export default function Navbar() {
               </nav>
             </div>
 
-            {/* ── CENTER: Logo (always centered) ───────────────── */}
-            <div className="flex-1 flex justify-center">
-              <Link
-                href="/"
-                aria-label="DermFix — home"
-                className="flex items-center hover:opacity-70 transition-opacity duration-200"
-              >
-                <DermFixLogo />
-              </Link>
-            </div>
-
-            {/* ── RIGHT ZONE ───────────────────────────────────── */}
-            <div className="flex items-center justify-end gap-1 flex-1 lg:w-[220px]">
+            {/* ── RIGHT ZONE: Actions ──────────────────────────── */}
+            <div className="flex items-center justify-end gap-1 sm:gap-2 lg:gap-3">
               {/* Search — desktop only */}
               <button
                 aria-label="Search"
-                className="hidden lg:flex items-center justify-center w-9 h-9 text-zinc-500 hover:text-zinc-900 transition-colors"
+                className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 transition-all"
               >
-                <Search size={17} strokeWidth={1.5} />
+                <Search size={18} strokeWidth={1.5} />
               </button>
 
               {/* Account — desktop only */}
               <button
                 aria-label="Account"
-                className="hidden lg:flex items-center justify-center w-9 h-9 text-zinc-500 hover:text-zinc-900 transition-colors"
+                className="hidden lg:flex items-center justify-center w-10 h-10 rounded-full text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 transition-all"
               >
-                <User size={17} strokeWidth={1.5} />
+                <User size={18} strokeWidth={1.5} />
               </button>
 
               {/* Bag — always visible */}
               <button
                 onClick={openCart}
                 aria-label={`Shopping bag, ${cartCount} item${cartCount !== 1 ? 's' : ''}`}
-                className="relative flex items-center justify-center w-9 h-9 text-zinc-800 hover:text-zinc-900 transition-colors"
+                className="relative flex items-center justify-center w-10 h-10 lg:w-11 lg:h-11 rounded-full text-zinc-800 hover:text-zinc-900 hover:bg-zinc-50 lg:hover:bg-blue-50 transition-all"
               >
-                <ShoppingBag size={19} strokeWidth={1.5} />
+                <ShoppingBag size={20} strokeWidth={1.5} />
                 {cartCount > 0 && (
                   <span
                     aria-hidden="true"
-                    className="absolute top-1 right-1 flex items-center justify-center
-                               min-w-[14px] h-[14px] px-[3px] rounded-full
-                               bg-brand-accent text-white text-[9px] font-semibold leading-none"
+                    className="absolute top-0.5 right-0.5 flex items-center justify-center
+                               min-w-[18px] h-[18px] px-1 rounded-full
+                               bg-brand-accent text-white text-[8px] lg:text-[9px] font-bold leading-none"
                   >
                     {cartCount > 99 ? '99+' : cartCount}
                   </span>

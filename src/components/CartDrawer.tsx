@@ -78,70 +78,70 @@ function CartItemRow({
   const { updateQty, removeItem } = useCart();
 
   return (
-    <div className="flex gap-4 py-5 border-b border-subtle last:border-b-0">
+    <div className="flex gap-3 sm:gap-4 py-4 sm:py-5 border-b border-subtle last:border-b-0">
       {/* Thumbnail */}
-      <div className="relative w-20 h-24 shrink-0 bg-[#f2f2f0] overflow-hidden">
+      <div className="relative w-18 h-24 sm:w-20 sm:h-24 shrink-0 bg-[#f2f2f0] overflow-hidden rounded-lg">
         <Image
           src={image}
           alt={alt}
           fill
-          sizes="80px"
+          sizes="(max-width: 640px) 72px, 80px"
           className="object-cover object-center"
         />
       </div>
 
       {/* Details */}
-      <div className="flex-1 min-w-0 flex flex-col gap-1">
+      <div className="flex-1 min-w-0 flex flex-col gap-2">
         {/* Name + remove */}
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <p className="text-[13px] font-semibold text-foreground leading-snug tracking-tight line-clamp-2">
+            <p className="text-[12px] sm:text-[13px] font-semibold text-foreground leading-snug tracking-tight line-clamp-2">
               {name}
             </p>
-            <p className="text-[11px] text-muted mt-0.5 truncate">{subtitle}</p>
+            <p className="text-[10px] sm:text-[11px] text-muted mt-1 truncate">{subtitle}</p>
           </div>
           <button
             onClick={() => removeItem(id)}
             aria-label={`Remove ${name} from cart`}
-            className="shrink-0 p-1 -mr-1 -mt-0.5 text-zinc-400 hover:text-brand-accent transition-colors"
+            className="shrink-0 p-1 -mr-1 -mt-1 text-zinc-400 hover:text-brand-accent transition-colors active:scale-75"
           >
             <Trash2 size={14} strokeWidth={1.5} />
           </button>
         </div>
 
         {/* Price */}
-        <div className="flex items-baseline gap-1.5 mt-1">
-          <span className="text-[14px] font-bold text-foreground">
-            {currency}{(price * quantity).toLocaleString('en-IN')}
+        <div className="flex items-baseline gap-1.5">
+          <span className="text-[13px] sm:text-[14px] font-bold text-foreground">
+            ₹{(price * quantity).toLocaleString('en-IN')}
           </span>
           {originalPrice && (
-            <span className="text-[11px] text-muted line-through">
-              {currency}{(originalPrice * quantity).toLocaleString('en-IN')}
+            <span className="text-[10px] sm:text-[11px] text-muted line-through">
+              ₹{(originalPrice * quantity).toLocaleString('en-IN')}
             </span>
           )}
         </div>
 
         {/* Quantity adjuster */}
-        <div className="flex items-center gap-0 border border-subtle w-fit mt-2">
+        <div className="flex items-center gap-0 border border-subtle w-fit rounded-sm">
           <button
             onClick={() => quantity === 1 ? removeItem(id) : updateQty(id, quantity - 1)}
             aria-label="Decrease quantity"
-            className="w-8 h-8 flex items-center justify-center text-zinc-500
-                       hover:text-foreground hover:bg-[#f2f2f0] transition-colors"
+            className="w-8 h-8 flex items-center justify-center text-zinc-500 text-xs
+                       hover:text-foreground hover:bg-[#f2f2f0] transition-colors active:scale-95"
           >
-            <Minus size={11} strokeWidth={2} />
+            <Minus size={10} strokeWidth={2.5} />
           </button>
-          <span className="w-8 h-8 flex items-center justify-center text-[12px] font-semibold
+          <span className="w-8 h-8 flex items-center justify-center text-[11px] font-semibold
                            text-foreground border-x border-subtle select-none">
             {quantity}
           </span>
           <button
             onClick={() => updateQty(id, quantity + 1)}
             aria-label="Increase quantity"
-            className="w-8 h-8 flex items-center justify-center text-zinc-500
-                       hover:text-foreground hover:bg-[#f2f2f0] transition-colors"
+            className="w-8 h-8 flex items-center justify-center text-zinc-500 text-xs
+                       hover:text-foreground hover:bg-[#f2f2f0] transition-colors active:scale-95"
           >
-            <Plus size={11} strokeWidth={2} />
+            <Plus size={10} strokeWidth={2.5} />
           </button>
         </div>
       </div>
@@ -319,7 +319,7 @@ export default function CartDrawer() {
           <EmptyCart onClose={closeCart} />
         ) : (
           <>
-            <div className="flex-1 overflow-y-auto overscroll-contain px-5">
+            <div className="flex-1 overflow-y-auto overscroll-contain px-5 min-h-0">
               {items.map((item) => (
                 <CartItemRow key={item.id} {...item} />
               ))}
