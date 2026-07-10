@@ -12,19 +12,36 @@ const config: Config = {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
-        background:       '#f8f8f7',
-        foreground:       '#0a0a0a',
-        muted:            '#737373',
-        subtle:           '#e4e4e3',
+        background:       '#f4f7fc',
+        foreground:       '#0a0f1e',
+        muted:            '#64748b',
+        subtle:           '#dde3ef',
         surface:          '#ffffff',
         brand: {
-          accent:         '#e8005a',   // magenta plus mark
+          accent:         '#1a4fd8',
+          'accent-dark':  '#1140b8',
+          'accent-light': '#e8effd',
         },
+      },
+      keyframes: {
+        'fade-in-up': {
+          '0%':   { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-in-up': 'fade-in-up 0.5s ease-out both',
       },
     },
   },
   plugins: [],
-  safelist: ['bg-brand-accent', 'text-brand-accent', 'border-brand-accent'],
+  safelist: [
+    'bg-brand-accent',
+    'text-brand-accent',
+    'border-brand-accent',
+    'bg-brand-accent-light',
+    'text-brand-accent-dark',
+  ],
 };
 
 export default config;
