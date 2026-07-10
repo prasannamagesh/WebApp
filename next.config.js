@@ -22,7 +22,6 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31536000,
-    cacheControl: 'public, max-age=31536000, immutable',
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     unoptimized: false,
@@ -30,11 +29,6 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
-  optimizeFonts: true,
-  swcMinify: true,
-  experimental: {
-    optimizePackageImports: ['lucide-react'],
-  },
 };
 
 module.exports = nextConfig;
