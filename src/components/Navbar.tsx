@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ShoppingBag, Menu, X, Search, User } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { DermFixLogo } from './DermFixLogo';
 
 // ─── Nav items array — add product categories here ───────────────
 const NAV_ITEMS = [
@@ -13,25 +14,6 @@ const NAV_ITEMS = [
   { label: 'Our Science', href: '/science' },
   { label: 'Contact',     href: '/contact' },
 ];
-
-// ─── Inline logo matching DermFix brand identity ──────────────────
-// Rendered as styled HTML so font rendering is guaranteed consistent.
-function DermFixLogo({ className = '' }: { className?: string }) {
-  return (
-    <span className={`inline-flex items-start leading-none select-none ${className}`}>
-      <span
-        style={{ fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif" }}
-        className="text-[17px] lg:text-[19px] font-black tracking-[0.18em] text-zinc-900"
-      >
-        DERMFIX
-      </span>
-      {/* Magenta plus — brand accent mark */}
-      <span className="text-brand-accent font-light text-[13px] lg:text-[15px] leading-none -mt-0.5 ml-[1px]">
-        +
-      </span>
-    </span>
-  );
-}
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,11 +47,20 @@ export default function Navbar() {
         {/* Thin magenta accent line at the very top */}
         <div className="h-[2px] w-full bg-brand-accent" />
 
-        <div className="max-w-screen-2xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="max-w-screen-2xl mx-auto px-4 sm:px-8 lg:px-12">
           <div className="flex items-center justify-between h-[60px] lg:h-[72px]">
 
-            {/* ── LEFT ZONE: Logo + Nav (Desktop) / Hamburger (Mobile) ──── */}
-            <div className="flex items-center gap-12">
+            {/* ── MOBILE LEFT: Hamburger */}
+            <button
+              className="lg:hidden p-2 -ml-2 text-zinc-800 hover:text-zinc-900 transition-colors"
+              aria-label="Open navigation menu"
+              onClick={() => setMenuOpen(true)}
+            >
+              <Menu size={20} strokeWidth={1.5} />
+            </button>
+
+            {/* ── CENTER (Mobile) / LEFT (Desktop): Logo + Nav ──── */}
+            <div className="flex-1 lg:flex-none flex items-center justify-center lg:justify-start gap-0 lg:gap-12">
               {/* Logo — all screens */}
               <Link
                 href="/"
@@ -78,15 +69,6 @@ export default function Navbar() {
               >
                 <DermFixLogo />
               </Link>
-
-              {/* Hamburger — mobile only */}
-              <button
-                className="lg:hidden p-2 -ml-2 text-zinc-800 hover:text-zinc-900 transition-colors"
-                aria-label="Open navigation menu"
-                onClick={() => setMenuOpen(true)}
-              >
-                <Menu size={20} strokeWidth={1.5} />
-              </button>
 
               {/* Nav links — desktop only, properly spaced */}
               <nav
@@ -110,7 +92,7 @@ export default function Navbar() {
             </div>
 
             {/* ── RIGHT ZONE: Actions ──────────────────────────── */}
-            <div className="flex items-center justify-end gap-1 sm:gap-2 lg:gap-3">
+            <div className="flex items-center justify-end gap-1 sm:gap-2 lg:gap-3 lg:flex-none">
               {/* Search — desktop only */}
               <button
                 aria-label="Search"

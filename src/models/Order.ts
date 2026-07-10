@@ -27,12 +27,17 @@ export interface IOrder extends Document {
   totalAmount: number;
   subtotal: number;
   tax: number;
-  shippingCost: number;
+  taxPercentage: number;
+  shipping: number;
   paymentStatus: 'Pending' | 'Paid' | 'Failed' | 'Refunded';
   shippingStatus: 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
   trackingId: string;
   paymentMethod: 'Card' | 'UPI' | 'NetBanking' | 'Wallet';
   paymentId?: string;
+  razorpayOrderId?: string;
+  razorpayPaymentId?: string;
+  razorpaySignature?: string;
+  paymentVerifiedAt?: Date;
   notes?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -132,9 +137,12 @@ const orderSchema = new Schema<IOrder>(
     tax: {
       type: Number,
       default: 0,
-      min: 0,
     },
-    shippingCost: {
+    taxPercentage: {
+      type: Number,
+      default: 18,
+    },
+    shipping: {
       type: Number,
       default: 0,
       min: 0,
@@ -171,6 +179,23 @@ const orderSchema = new Schema<IOrder>(
     paymentId: {
       type: String,
       unique: true,
+      sparse: true,
+    },
+    razorpayOrderId: {
+      type: String,
+      sparse: true,
+      index: true,
+    },
+    razorpayPaymentId: {
+      type: String,
+      sparse: true,
+    },
+    razorpaySignature: {
+      type: String,
+      sparse: true,
+    },
+    paymentVerifiedAt: {
+      type: Date,
       sparse: true,
     },
     notes: {

@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import Order from '@/models/Order';
 import Product from '@/models/Product';
+import Razorpay from 'razorpay';
 import { z } from 'zod';
+import { sendOrderConfirmationNotification } from '@/lib/whatsapp-service';
 
 // Validation schemas
 const OrderItemSchema = z.object({
@@ -123,14 +125,44 @@ export async function POST(request: NextRequest) {
     const tax = Math.round(subtotal * 0.18);
 
     // Calculate shipping (Free for orders above 500, else 50)
-    const shippingCost = subtotal >= 500 ? 0 : 50;
+    const shipping = subtotal >= 500 ? 0 : 50;
 
     // Calculate total
-    const totalAmount = subtotal + tax + shippingCost;
+    const totalAmount = subtotal + tax + shipping;
 
     // Create order
     const orderId = generateOrderId();
     const trackingId = generateTrackingId();
+
+    // Create Razorpay order for payment
+    let razorpayOrderId: string | undefined;
+    const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
+    const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
+
+    if (RAZORPAY_KEY_ID && RAZORPAY_KEY_SECRET) {
+      try {
+        const razorpay = new Razorpay({
+          key_id: RAZORPAY_KEY_ID,
+          key_secret: RAZORPAY_KEY_SECRET,
+        });
+
+        const razorpayOrder = await razorpay.orders.create({
+          amount: Math.round(totalAmount * 100), // Amount in paise
+          currency: 'INR',
+          receipt: orderId,
+          notes: {
+            orderId,
+            trackingId,
+            customerEmail: validatedData.customerDetails.email,
+          },
+        });
+
+        razorpayOrderId = razorpayOrder.id;
+      } catch (razorpayError) {
+        console.error('[v0] Razorpay order creation failed:', razorpayError);
+        // Continue without Razorpay order - user can retry payment
+      }
+    }
 
     const order = await Order.create({
       orderId,
@@ -138,13 +170,14 @@ export async function POST(request: NextRequest) {
       items: validatedItems,
       subtotal,
       tax,
-      shippingCost,
+      taxPercentage: 18,
+      shipping,
       totalAmount,
-      paymentStatus: validatedData.paymentId ? 'Paid' : 'Pending',
+      paymentStatus: 'Pending',
       shippingStatus: 'Processing',
       trackingId,
       paymentMethod: validatedData.paymentMethod,
-      paymentId: validatedData.paymentId,
+      razorpayOrderId,
       notes: validatedData.notes,
     });
 
@@ -157,6 +190,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Send WhatsApp order confirmation notification (async, don't wait)
+    try {
+      if (validatedData.customerDetails?.phone) {
+        const deliveryDays = subtotal >= 500 ? '2-3' : '3-5';
+        const customerName = `${validatedData.customerDetails.firstName} ${validatedData.customerDetails.lastName}`;
+        await sendOrderConfirmationNotification(
+          validatedData.customerDetails.phone,
+          {
+            orderId: order.orderId,
+            customerName: customerName.trim() || 'Valued Customer',
+            totalAmount: totalAmount.toFixed(2),
+            estimatedDelivery: deliveryDays + ' business days',
+          }
+        ).catch((err) => {
+          console.error('[v0] WhatsApp notification failed (non-blocking):', err);
+        });
+      }
+    } catch (whatsappError) {
+      console.error('[v0] WhatsApp notification error:', whatsappError);
+      // Don't fail checkout if WhatsApp notification fails
+    }
+
     return NextResponse.json(
       {
         success: true,
@@ -167,6 +222,8 @@ export async function POST(request: NextRequest) {
           totalAmount: order.totalAmount,
           paymentStatus: order.paymentStatus,
           shippingStatus: order.shippingStatus,
+          razorpayOrderId: order.razorpayOrderId,
+          razorpayKeyId: RAZORPAY_KEY_ID,
         },
       },
       { status: 201 }
