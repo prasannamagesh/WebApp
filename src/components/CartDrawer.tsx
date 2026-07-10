@@ -408,7 +408,7 @@ export default function CartDrawer() {
         aria-modal="true"
         aria-label="Shopping cart"
         className={`fixed top-0 right-0 bottom-0 z-[70]
-                    w-full sm:w-[420px]
+                    w-full min-w-[300px] sm:w-[400px] sm:min-w-[400px] md:w-[450px]
                     bg-surface flex flex-col
                     shadow-[-8px_0_40px_rgba(0,0,0,0.10)]
                     transition-transform duration-[380ms] ease-[cubic-bezier(0.32,0.72,0,1)]
