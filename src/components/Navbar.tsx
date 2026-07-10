@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ShoppingBag, Menu, X, Search, User } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, User, Settings } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { DermFixLogo } from './DermFixLogo';
 
@@ -15,9 +15,20 @@ const NAV_ITEMS = [
   { label: 'Contact',     href: '/contact' },
 ];
 
+// ─── Admin items ───────────────────────────────────────────────────
+const ADMIN_ITEMS = [
+  { label: 'Dashboard',   href: '/admin' },
+  { label: 'Orders',      href: '/admin/orders' },
+  { label: 'Products',    href: '/admin/products' },
+  { label: 'Users',       href: '/admin/users' },
+  { label: 'Settings',    href: '/admin/settings' },
+];
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { totalItems: cartCount, openCart } = useCart();
 
   useEffect(() => {
@@ -88,6 +99,31 @@ export default function Navbar() {
                     {item.label}
                   </Link>
                 ))}
+
+                {/* Admin Dropdown — desktop only */}
+                <div className="relative group">
+                  <button
+                    className="relative whitespace-nowrap text-[11px] font-medium tracking-[0.14em] uppercase text-zinc-600
+                               hover:text-zinc-900 transition-colors duration-200 flex items-center gap-1.5
+                               after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0
+                               after:bg-brand-accent after:transition-all after:duration-300
+                               group-hover:after:w-full"
+                  >
+                    <Settings size={14} strokeWidth={1.5} />
+                    Admin
+                  </button>
+                  <div className="absolute left-0 mt-0 w-48 rounded-lg bg-white shadow-lg border border-zinc-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                    {ADMIN_ITEMS.map((item) => (
+                      <Link
+                        key={item.label}
+                        href={item.href}
+                        className="block px-4 py-2.5 text-[11px] font-medium tracking-[0.08em] uppercase text-zinc-700 hover:bg-zinc-50 hover:text-brand-accent transition-colors first:rounded-t-lg last:rounded-b-lg border-b border-zinc-100 last:border-b-0"
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </nav>
             </div>
 
@@ -172,7 +208,7 @@ export default function Navbar() {
         </div>
 
         {/* Sheet nav links */}
-        <nav aria-label="Mobile navigation" className="flex flex-col px-6 pt-6">
+        <nav aria-label="Mobile navigation" className="flex flex-col px-6 pt-6 flex-1 overflow-y-auto">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.label}
@@ -188,6 +224,40 @@ export default function Navbar() {
               </span>
             </Link>
           ))}
+
+          {/* Mobile Admin Links */}
+          <div className="py-4 border-b border-zinc-100">
+            <button
+              onClick={() => setAdminOpen(!adminOpen)}
+              className="flex items-center justify-between w-full text-[12px] font-medium tracking-[0.16em] uppercase
+                         text-zinc-700 hover:text-brand-accent transition-colors group"
+            >
+              <span className="flex items-center gap-2">
+                <Settings size={14} strokeWidth={1.5} />
+                Admin Panel
+              </span>
+              <span className={`transition-transform duration-300 ${adminOpen ? 'rotate-180' : ''}`}>
+                +
+              </span>
+            </button>
+            {adminOpen && (
+              <div className="mt-2 pl-6 space-y-2 border-l border-zinc-200">
+                {ADMIN_ITEMS.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setAdminOpen(false);
+                    }}
+                    className="block py-2 text-[11px] font-medium tracking-[0.12em] uppercase text-zinc-600 hover:text-brand-accent transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
         {/* Sheet footer */}

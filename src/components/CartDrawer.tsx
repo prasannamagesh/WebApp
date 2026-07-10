@@ -11,6 +11,9 @@ import {
   Tag,
   ChevronRight,
   ShoppingBag,
+  Clock,
+  Zap,
+  CheckCircle2,
 } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
@@ -24,6 +27,147 @@ const VALID_COUPONS: Record<string, { discount: number; label: string }> = {
   DERM20:  { discount: 0.20, label: '20% off' },
   FIRST15: { discount: 0.15, label: '15% off — First Order' },
 };
+
+// ─── Urgency timer component ────────────────────────────────────────
+function UrgencyBanner() {
+  const [timeLeft, setTimeLeft] = useState({ minutes: 4, seconds: 21 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev.seconds > 0) {
+          return { ...prev, seconds: prev.seconds - 1 };
+        } else if (prev.minutes > 0) {
+          return { minutes: prev.minutes - 1, seconds: 59 };
+        }
+        return prev;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="bg-brand-accent/10 border-b border-brand-accent/20 px-5 py-3">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <Clock size={14} strokeWidth={2} className="text-brand-accent" />
+          <p className="text-[11px] sm:text-[12px] font-semibold text-foreground">
+            Buy before products go out of stock
+          </p>
+        </div>
+        <div className="flex items-center gap-1.5 bg-white rounded-md px-2 py-1">
+          <span className="text-[10px] sm:text-[11px] font-bold text-foreground">
+            {String(timeLeft.minutes).padStart(2, '0')}m
+          </span>
+          <span className="text-muted">:</span>
+          <span className="text-[10px] sm:text-[11px] font-bold text-foreground">
+            {String(timeLeft.seconds).padStart(2, '0')}s
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Social proof banner ────────────────────────────────────────────
+function SocialProofBanner() {
+  return (
+    <div className="bg-brand-accent text-white px-5 py-3">
+      <div className="flex items-center justify-center gap-2">
+        <Zap size={14} strokeWidth={2} />
+        <p className="text-[12px] sm:text-[13px] font-bold text-center">
+          87% of People saw noticeable results
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── Recommended products section ──────────────────────────────────
+const RECOMMENDED_PRODUCTS = [
+  {
+    id: 'rec-1',
+    name: 'Glow & Protect Combo',
+    price: 699,
+    originalPrice: 898,
+    discount: '22% off',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.37.21%20PM-fBBWX6rROuYBckCDBcU6LKhKurrMwM.jpeg',
+    alt: 'Glow & Protect Combo',
+  },
+  {
+    id: 'rec-2',
+    name: 'Moisture Seal',
+    price: 499,
+    originalPrice: 699,
+    discount: '28% off',
+    image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202026-07-10%20at%2010.35.11%20PM-kUIHppKWQEU9GwBDcUpbA7mojFfjUH.jpeg',
+    alt: 'Moisture Seal Serum',
+  },
+];
+
+function RecommendedProducts() {
+  const { addToCart } = useCart();
+
+  return (
+    <div className="px-5 py-4 border-t border-subtle">
+      <h3 className="text-[12px] font-bold tracking-[0.1em] uppercase text-foreground mb-3">
+        Recommended Products
+      </h3>
+      <div className="space-y-3">
+        {RECOMMENDED_PRODUCTS.map((product) => (
+          <div key={product.id} className="flex gap-3 border border-subtle rounded-lg p-3 hover:border-foreground transition-colors">
+            <div className="relative w-16 h-16 shrink-0 rounded-md overflow-hidden bg-[#f2f2f0]">
+              <Image
+                src={product.image}
+                alt={product.alt}
+                fill
+                sizes="64px"
+                className="object-cover"
+              />
+              <div className="absolute top-1 left-1 bg-emerald-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-sm">
+                {product.discount}
+              </div>
+            </div>
+            <div className="flex-1 flex flex-col justify-between min-w-0">
+              <div>
+                <p className="text-[11px] font-semibold text-foreground line-clamp-2">
+                  {product.name}
+                </p>
+              </div>
+              <div className="flex items-center justify-between gap-1">
+                <div className="flex items-baseline gap-1">
+                  <span className="text-[12px] font-bold text-foreground">
+                    ₹{product.price}
+                  </span>
+                  <span className="text-[9px] text-muted line-through">
+                    ₹{product.originalPrice}
+                  </span>
+                </div>
+                <button
+                  onClick={() => addToCart({
+                    id: product.id,
+                    name: product.name,
+                    subtitle: 'Premium Skincare',
+                    price: product.price,
+                    originalPrice: product.originalPrice,
+                    currency: '₹',
+                    image: product.image,
+                    alt: product.alt,
+                  })}
+                  className="text-[10px] font-semibold border border-foreground text-foreground
+                             px-2 py-1 rounded-sm hover:bg-foreground hover:text-surface
+                             transition-colors duration-200"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // ─── Empty state ────────────────────────────────────────────────────
 function EmptyCart({ onClose }: { onClose: () => void }) {
@@ -314,6 +458,14 @@ export default function CartDrawer() {
           {items.length > 0 && <ShippingProgress subtotal={subtotal} />}
         </div>
 
+        {/* ── Urgency & Social Proof Banners ────────────────────── */}
+        {items.length > 0 && (
+          <>
+            <UrgencyBanner />
+            <SocialProofBanner />
+          </>
+        )}
+
         {/* ── Scrollable item list ──────────────────────────────── */}
         {items.length === 0 ? (
           <EmptyCart onClose={closeCart} />
@@ -324,6 +476,9 @@ export default function CartDrawer() {
                 <CartItemRow key={item.id} {...item} />
               ))}
             </div>
+
+            {/* ── Recommended Products ─────────────────────────── */}
+            <RecommendedProducts />
 
             {/* ── Footer: coupon + summary + CTA ─────────────── */}
             <div className="shrink-0 border-t border-subtle">
