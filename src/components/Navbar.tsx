@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { ShoppingBag, Menu, X, Search, User } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 // ─── Nav items array — add product categories here ───────────────
 const NAV_ITEMS = [
@@ -32,7 +33,7 @@ function DermFixLogo({ className = '' }: { className?: string }) {
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [cartCount] = useState<number>(2);
+  const { totalItems: cartCount, openCart } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4);
@@ -127,6 +128,7 @@ export default function Navbar() {
 
               {/* Bag — always visible */}
               <button
+                onClick={openCart}
                 aria-label={`Shopping bag, ${cartCount} item${cartCount !== 1 ? 's' : ''}`}
                 className="relative flex items-center justify-center w-9 h-9 text-zinc-800 hover:text-zinc-900 transition-colors"
               >

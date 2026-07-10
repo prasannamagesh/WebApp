@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Star, ShoppingBag, Plus } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 // ─── Product catalogue data ────────────────────────────────────────
 // Replace with a database fetch when backend is ready.
@@ -138,11 +139,22 @@ function Stars({ rating }: { rating: number }) {
 // ─── Single product card ───────────────────────────────────────────
 function ProductCard({ product }: { product: CatalogProduct }) {
   const [added, setAdded] = useState(false);
+  const { addToCart } = useCart();
   const discount = product.originalPrice
     ? Math.round((1 - product.price / product.originalPrice) * 100)
     : 0;
 
   const handleAdd = () => {
+    addToCart({
+      id:            product.id,
+      name:          product.name,
+      subtitle:      product.subtitle,
+      price:         product.price,
+      originalPrice: product.originalPrice,
+      currency:      product.currency,
+      image:         product.image,
+      alt:           product.alt,
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   };

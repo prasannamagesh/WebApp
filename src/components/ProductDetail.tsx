@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { useCart } from '@/context/CartContext';
 import { Star, ChevronLeft, ChevronRight, ShieldCheck, Beaker, Leaf, Plus, Minus, ShoppingBag } from 'lucide-react';
 import Image from 'next/image';
 
@@ -246,10 +247,21 @@ export default function ProductDetail({
   description,
 }: ProductProps) {
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const handleAddToCart = () => {
-    // Cart integration hook point
-    console.log('[v0] Add to cart:', { title, quantity, price });
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id:            title.toLowerCase().replace(/\s+/g, '-'),
+        name:          title,
+        subtitle:      subtitle,
+        price:         price,
+        originalPrice: originalPrice,
+        currency:      currency,
+        image:         images[0]?.src ?? '',
+        alt:           images[0]?.alt ?? title,
+      });
+    }
   };
 
   return (
