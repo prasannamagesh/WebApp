@@ -1,49 +1,80 @@
 export default function Home() {
   return (
     <main>
-      {/* Hero — tall section so sticky nav is visible on scroll */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-6 pt-20 text-center bg-[#f9f8f6]">
-        <p className="text-xs tracking-[0.2em] uppercase text-muted mb-4">
-          New arrivals — Summer 2025
+      {/* ─── Hero ─────────────────────────────────────────────── */}
+      <section className="min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 text-center bg-background">
+        {/* Clinical eyebrow label */}
+        <p className="text-[10px] font-medium tracking-[0.28em] uppercase text-muted mb-6">
+          Preventive Skin Science
         </p>
-        <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl text-foreground leading-tight text-balance">
-          Skin that speaks
+
+        {/* Headline */}
+        <h1 className="text-[40px] sm:text-[60px] lg:text-[72px] font-bold tracking-[-0.03em] text-foreground leading-[1.05] text-balance max-w-3xl">
+          Skin engineered
           <br />
-          for itself.
+          to last.
         </h1>
-        <p className="mt-6 max-w-md text-base text-muted leading-relaxed text-pretty">
-          Science-backed formulas rooted in nature. Find your ritual with our
-          personalised skin test.
+
+        {/* Accent rule */}
+        <div className="mt-8 w-8 h-[2px] bg-brand-accent" />
+
+        {/* Sub-copy */}
+        <p className="mt-6 max-w-sm text-[14px] text-muted leading-relaxed text-pretty">
+          Clinically formulated for prevention — not just correction. Built for
+          how your skin ages, not how you want it to.
         </p>
-        <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
+
+        {/* CTAs */}
+        <div className="mt-10 flex flex-col sm:flex-row items-center gap-3">
           <a
             href="#"
-            className="px-8 py-3 bg-foreground text-surface text-xs tracking-[0.12em] uppercase hover:opacity-80 transition-opacity"
+            className="px-8 py-3 bg-foreground text-surface text-[11px] font-medium tracking-[0.16em] uppercase
+                       hover:bg-zinc-800 transition-colors duration-200"
           >
-            Shop Now
+            Shop All
           </a>
           <a
             href="#"
-            className="px-8 py-3 border border-foreground text-foreground text-xs tracking-[0.12em] uppercase hover:bg-foreground hover:text-surface transition-colors"
+            className="px-8 py-3 border border-zinc-300 text-foreground text-[11px] font-medium tracking-[0.16em] uppercase
+                       hover:border-foreground transition-colors duration-200"
           >
-            Skin Test
+            Take the Skin Test
           </a>
         </div>
       </section>
 
-      {/* Filler section to allow scrolling */}
-      <section className="py-32 px-6 bg-stone-100">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-xs tracking-[0.2em] uppercase text-muted mb-4">
-            Our philosophy
-          </p>
-          <h2 className="font-serif text-4xl sm:text-5xl text-foreground leading-snug text-balance">
-            Fewer ingredients. Greater impact.
-          </h2>
-          <p className="mt-6 max-w-lg mx-auto text-base text-muted leading-relaxed">
-            Every formula is distilled to its essential truth — no fillers, no
-            compromise. Just the active ingredients your skin has been waiting for.
-          </p>
+      {/* ─── Filler section (scroll demo) ────────────────────── */}
+      <section className="py-32 px-6 bg-surface border-t border-subtle">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            {[
+              {
+                num: '01',
+                title: 'Diagnose',
+                body: 'Our dermatologist-designed skin test identifies your exact profile in under 3 minutes.',
+              },
+              {
+                num: '02',
+                title: 'Formulate',
+                body: 'Every product contains only the actives your skin needs — nothing superfluous.',
+              },
+              {
+                num: '03',
+                title: 'Prevent',
+                body: 'Address the causes of skin ageing before they become visible — at the cellular level.',
+              },
+            ].map((step) => (
+              <div key={step.num} className="flex flex-col gap-4">
+                <span className="text-[10px] font-medium tracking-[0.22em] uppercase text-brand-accent">
+                  {step.num}
+                </span>
+                <h2 className="text-[22px] font-bold tracking-[-0.02em] text-foreground">
+                  {step.title}
+                </h2>
+                <p className="text-[14px] text-muted leading-relaxed">{step.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>

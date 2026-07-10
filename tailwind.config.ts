@@ -10,15 +10,16 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-serif)', 'ui-serif', 'Georgia', 'serif'],
       },
       colors: {
-        background: '#f9f8f6',
-        foreground: '#1c1917',
-        muted: '#78716c',
-        border: '#e7e5e4',
-        surface: '#ffffff',
-        accent: '#a8956e',
+        background:       '#f8f8f7',
+        foreground:       '#0a0a0a',
+        muted:            '#737373',
+        subtle:           '#e4e4e3',
+        surface:          '#ffffff',
+        brand: {
+          accent:         '#e8005a',   // magenta plus mark
+        },
       },
     },
   },

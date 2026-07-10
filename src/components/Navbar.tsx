@@ -1,28 +1,41 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import {
-  Search,
-  User,
-  ShoppingBag,
-  Menu,
-  X,
-  Leaf,
-} from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, User } from 'lucide-react';
 
-const NAV_LINKS = [
-  { label: 'Shop', href: '#' },
-  { label: 'About', href: '#' },
+// ─── Nav items array — add product categories here ───────────────
+const NAV_ITEMS = [
+  { label: 'Shop All', href: '#' },
   { label: 'Skin Test', href: '#' },
+  { label: 'Our Science', href: '#' },
 ];
+
+// ─── Inline logo matching DermFix brand identity ──────────────────
+// Rendered as styled HTML so font rendering is guaranteed consistent.
+function DermFixLogo({ className = '' }: { className?: string }) {
+  return (
+    <span className={`inline-flex items-start leading-none select-none ${className}`}>
+      <span
+        style={{ fontFamily: "'Inter', 'Helvetica Neue', Arial, sans-serif" }}
+        className="text-[17px] lg:text-[19px] font-black tracking-[0.18em] text-zinc-900"
+      >
+        DERMFIX
+      </span>
+      {/* Magenta plus — brand accent mark */}
+      <span className="text-brand-accent font-light text-[13px] lg:text-[15px] leading-none -mt-0.5 ml-[1px]">
+        +
+      </span>
+    </span>
+  );
+}
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const cartCount = 3;
+  const cartCount = 2;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 4);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -30,188 +43,182 @@ export default function Navbar() {
   // Lock body scroll when mobile sheet is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [menuOpen]);
 
   return (
     <>
-      {/* ─── Header ─────────────────────────────────────────────── */}
+      {/* ─── Sticky Header ───────────────────────────────────────── */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'backdrop-blur-md bg-white/80 shadow-[0_1px_0_0_rgba(0,0,0,0.06)]'
-            : 'backdrop-blur-md bg-white/80'
+            ? 'bg-white/90 backdrop-blur-md border-b border-zinc-100 shadow-[0_1px_0_0_rgba(0,0,0,0.04)]'
+            : 'bg-white/90 backdrop-blur-md'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-[68px]">
+        {/* Thin magenta accent line at the very top */}
+        <div className="h-[2px] w-full bg-brand-accent" />
 
-            {/* ── LEFT: Hamburger (mobile) / Logo (desktop) ─────── */}
-            <div className="flex items-center flex-1 lg:flex-none">
+        <div className="max-w-screen-xl mx-auto px-5 sm:px-8 lg:px-12">
+          <div className="flex items-center h-[60px] lg:h-[68px]">
+
+            {/* ── LEFT ZONE ────────────────────────────────────── */}
+            <div className="flex items-center flex-1 lg:flex-none lg:w-[220px]">
               {/* Hamburger — mobile only */}
               <button
-                className="lg:hidden p-1.5 -ml-1.5 rounded-md text-stone-700 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+                className="lg:hidden p-2 -ml-2 text-zinc-800 hover:text-zinc-900 transition-colors"
                 aria-label="Open navigation menu"
                 onClick={() => setMenuOpen(true)}
               >
-                <Menu size={22} strokeWidth={1.6} />
+                <Menu size={20} strokeWidth={1.5} />
               </button>
 
-              {/* Logo — desktop only (left-aligned) */}
-              <a
-                href="#"
-                className="hidden lg:flex items-center gap-2 text-stone-900 hover:opacity-75 transition-opacity"
-                aria-label="LUMÉ — home"
-              >
-                <Leaf size={20} strokeWidth={1.5} className="text-stone-500" />
-                <span className="font-serif text-xl tracking-[0.12em] uppercase text-stone-900">
-                  Lumé
-                </span>
-              </a>
-            </div>
-
-            {/* ── CENTER: Logo (mobile) / Nav links (desktop) ────── */}
-            <div className="flex-1 flex justify-center">
-              {/* Logo — mobile only (perfectly centered) */}
-              <a
-                href="#"
-                className="lg:hidden flex items-center gap-1.5 text-stone-900"
-                aria-label="LUMÉ — home"
-              >
-                <Leaf size={16} strokeWidth={1.5} className="text-stone-500" />
-                <span className="font-serif text-lg tracking-[0.14em] uppercase">
-                  Lumé
-                </span>
-              </a>
-
-              {/* Nav links — desktop only */}
+              {/* Nav links — desktop left is empty; logo is center */}
               <nav
                 aria-label="Primary navigation"
-                className="hidden lg:flex items-center gap-10"
+                className="hidden lg:flex items-center gap-9"
               >
-                {NAV_LINKS.map((link) => (
+                {NAV_ITEMS.map((item) => (
                   <a
-                    key={link.label}
-                    href={link.href}
-                    className="relative text-[13px] tracking-[0.08em] uppercase text-stone-600 hover:text-stone-900 transition-colors
-                               after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-stone-900
-                               after:transition-all after:duration-300 hover:after:w-full"
+                    key={item.label}
+                    href={item.href}
+                    className="relative whitespace-nowrap text-[11px] font-medium tracking-[0.14em] uppercase text-zinc-500
+                               hover:text-zinc-900 transition-colors duration-200
+                               after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0
+                               after:bg-brand-accent after:transition-all after:duration-300
+                               hover:after:w-full"
                   >
-                    {link.label}
+                    {item.label}
                   </a>
                 ))}
               </nav>
             </div>
 
-            {/* ── RIGHT: Icons ─────────────────────────────────── */}
-            <div className="flex items-center gap-1 flex-1 justify-end">
+            {/* ── CENTER: Logo (always centered) ───────────────── */}
+            <div className="flex-1 flex justify-center">
+              <a
+                href="#"
+                aria-label="DermFix — home"
+                className="flex items-center hover:opacity-70 transition-opacity duration-200"
+              >
+                <DermFixLogo />
+              </a>
+            </div>
+
+            {/* ── RIGHT ZONE ───────────────────────────────────── */}
+            <div className="flex items-center justify-end gap-1 flex-1 lg:w-[220px]">
               {/* Search — desktop only */}
               <button
                 aria-label="Search"
-                className="hidden lg:flex p-2 rounded-md text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+                className="hidden lg:flex items-center justify-center w-9 h-9 text-zinc-500 hover:text-zinc-900 transition-colors"
               >
-                <Search size={19} strokeWidth={1.6} />
+                <Search size={17} strokeWidth={1.5} />
               </button>
 
-              {/* User — desktop only */}
+              {/* Account — desktop only */}
               <button
                 aria-label="Account"
-                className="hidden lg:flex p-2 rounded-md text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+                className="hidden lg:flex items-center justify-center w-9 h-9 text-zinc-500 hover:text-zinc-900 transition-colors"
               >
-                <User size={19} strokeWidth={1.6} />
+                <User size={17} strokeWidth={1.5} />
               </button>
 
-              {/* Cart — always visible */}
+              {/* Bag — always visible */}
               <button
-                aria-label={`Cart, ${cartCount} items`}
-                className="relative p-2 rounded-md text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+                aria-label={`Shopping bag, ${cartCount} item${cartCount !== 1 ? 's' : ''}`}
+                className="relative flex items-center justify-center w-9 h-9 text-zinc-800 hover:text-zinc-900 transition-colors"
               >
-                <ShoppingBag size={19} strokeWidth={1.6} />
+                <ShoppingBag size={19} strokeWidth={1.5} />
                 {cartCount > 0 && (
                   <span
                     aria-hidden="true"
-                    className="absolute top-0.5 right-0.5 flex items-center justify-center
-                               min-w-[16px] h-[16px] px-[3px] rounded-full
-                               bg-stone-900 text-white text-[9px] font-semibold leading-none tracking-wide"
+                    className="absolute top-1 right-1 flex items-center justify-center
+                               min-w-[14px] h-[14px] px-[3px] rounded-full
+                               bg-brand-accent text-white text-[9px] font-semibold leading-none"
                   >
                     {cartCount > 99 ? '99+' : cartCount}
                   </span>
                 )}
               </button>
             </div>
+
           </div>
         </div>
       </header>
 
-      {/* ─── Mobile Overlay ─────────────────────────────────────── */}
+      {/* ─── Mobile Overlay ──────────────────────────────────────── */}
       <div
         aria-hidden="true"
         onClick={() => setMenuOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/30 backdrop-blur-[2px] transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] transition-opacity duration-300 lg:hidden ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
 
-      {/* ─── Mobile Slide-out Sheet ──────────────────────────────── */}
+      {/* ─── Mobile Slide-out Sheet ───────────────────────────────── */}
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
-        className={`fixed top-0 left-0 bottom-0 z-50 w-[300px] bg-white flex flex-col
+        className={`fixed top-0 left-0 bottom-0 z-50 w-[280px] bg-white flex flex-col
                     transition-transform duration-300 ease-in-out lg:hidden
                     ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
-        {/* Sheet header */}
-        <div className="flex items-center justify-between px-6 h-16 border-b border-stone-100">
+        {/* Sheet top bar */}
+        <div className="h-[2px] w-full bg-brand-accent" />
+        <div className="flex items-center justify-between px-6 h-16 border-b border-zinc-100">
           <a
             href="#"
             onClick={() => setMenuOpen(false)}
-            className="flex items-center gap-1.5 text-stone-900"
-            aria-label="LUMÉ — home"
+            aria-label="DermFix — home"
+            className="flex items-center hover:opacity-70 transition-opacity"
           >
-            <Leaf size={16} strokeWidth={1.5} className="text-stone-500" />
-            <span className="font-serif text-lg tracking-[0.14em] uppercase">
-              Lumé
-            </span>
+            <DermFixLogo />
           </a>
           <button
             onClick={() => setMenuOpen(false)}
             aria-label="Close navigation menu"
-            className="p-1.5 rounded-md text-stone-500 hover:text-stone-900 hover:bg-stone-100 transition-colors"
+            className="p-1.5 -mr-1.5 text-zinc-400 hover:text-zinc-900 transition-colors"
           >
-            <X size={20} strokeWidth={1.6} />
+            <X size={18} strokeWidth={1.5} />
           </button>
         </div>
 
         {/* Sheet nav links */}
-        <nav aria-label="Mobile navigation" className="flex flex-col px-6 pt-8 gap-1">
-          {NAV_LINKS.map((link) => (
+        <nav aria-label="Mobile navigation" className="flex flex-col px-6 pt-6">
+          {NAV_ITEMS.map((item) => (
             <a
-              key={link.label}
-              href={link.href}
+              key={item.label}
+              href={item.href}
               onClick={() => setMenuOpen(false)}
-              className="py-3 text-[15px] tracking-[0.06em] uppercase text-stone-700 hover:text-stone-900
-                         border-b border-stone-100 transition-colors"
+              className="flex items-center justify-between py-4 text-[12px] font-medium tracking-[0.16em] uppercase
+                         text-zinc-700 hover:text-zinc-900 border-b border-zinc-100
+                         transition-colors duration-200 group"
             >
-              {link.label}
+              <span>{item.label}</span>
+              <span className="text-brand-accent opacity-0 group-hover:opacity-100 transition-opacity text-lg leading-none">
+                +
+              </span>
             </a>
           ))}
         </nav>
 
-        {/* Sheet footer icons */}
-        <div className="mt-auto px-6 pb-10 flex items-center gap-5 border-t border-stone-100 pt-6">
+        {/* Sheet footer */}
+        <div className="mt-auto px-6 pb-10 pt-8 flex items-center gap-6 border-t border-zinc-100">
           <button
             aria-label="Search"
-            className="flex items-center gap-2 text-[13px] tracking-[0.06em] uppercase text-stone-600 hover:text-stone-900 transition-colors"
+            className="flex items-center gap-2 text-[11px] font-medium tracking-[0.12em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors"
           >
-            <Search size={17} strokeWidth={1.5} />
+            <Search size={15} strokeWidth={1.5} />
             Search
           </button>
           <button
             aria-label="Account"
-            className="flex items-center gap-2 text-[13px] tracking-[0.06em] uppercase text-stone-600 hover:text-stone-900 transition-colors"
+            className="flex items-center gap-2 text-[11px] font-medium tracking-[0.12em] uppercase text-zinc-500 hover:text-zinc-900 transition-colors"
           >
-            <User size={17} strokeWidth={1.5} />
+            <User size={15} strokeWidth={1.5} />
             Account
           </button>
         </div>

@@ -2,14 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── DermFix Design Tokens ──────────────────────────────────────
+   Clinical white palette with stark black type and magenta accent.
+   Matches the brand logo: black sans-serif + magenta plus mark.
+───────────────────────────────────────────────────────────────── */
 :root {
-  /* Brand tokens */
-  --color-background: #f9f8f6;
-  --color-foreground: #1c1917;
-  --color-muted: #78716c;
-  --color-border: #e7e5e4;
-  --color-surface: #ffffff;
-  --color-accent: #a8956e;
+  --color-background:  #f8f8f7;   /* off-white clinical surface   */
+  --color-foreground:  #0a0a0a;   /* near-black — stark type       */
+  --color-muted:       #737373;   /* neutral gray                  */
+  --color-subtle:      #e4e4e3;   /* hairline dividers             */
+  --color-surface:     #ffffff;   /* pure white cards/sheets       */
+  --color-accent:      #e8005a;   /* magenta — from logo plus mark */
 }
 
 html {
@@ -27,5 +30,8 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
   }
 }

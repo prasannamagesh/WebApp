@@ -1,6 +1,5 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import { Cormorant_Garamond } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import './globals.css';
 
@@ -10,16 +9,16 @@ const inter = Inter({
   display: 'swap',
 });
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
-  title: 'Lumé — Skincare',
-  description: 'Premium minimalist skincare. Discover Shop, About, and our personalised Skin Test.',
+  title: 'DermFix — Preventive Skin Science',
+  description:
+    'Science-backed formulations engineered for long-term skin health. Take the Skin Test, shop our range, and explore the science behind every formula.',
+};
+
+export const viewport: Viewport = {
+  themeColor: '#ffffff',
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -28,8 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${cormorant.variable} bg-[#f9f8f6]`}>
-      <body className={`${inter.className} antialiased`}>
+    <html lang="en" className={`${inter.variable} bg-background`}>
+      <body className="font-sans antialiased">
         <Navbar />
         {children}
       </body>
